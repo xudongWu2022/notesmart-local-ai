@@ -174,6 +174,16 @@ function SettingsModal({ isOpen, onClose }) {
                     placeholder="Paste your own API key"
                     className="mt-2 w-full px-4 py-2 rounded-lg border border-border bg-surface-input text-content-primary" />
                 </label>
+                {aiSettings.provider === 'openai' && (
+                  <label className="block text-sm font-medium text-content-primary">
+                    Base URL <span className="font-normal text-content-secondary">(optional)</span>
+                    <input type="url" value={aiSettings.baseUrl}
+                      onChange={(event) => updateAiSettings({ baseUrl: event.target.value })}
+                      placeholder="http://127.0.0.1:8080"
+                      className="mt-2 w-full px-4 py-2 rounded-lg border border-border bg-surface-input text-content-primary" />
+                    <span className="mt-1 block text-xs font-normal text-content-secondary">Leave blank for official OpenAI. OpenAI-compatible relays use the Responses API.</span>
+                  </label>
+                )}
                 <label className="block text-sm font-medium text-content-primary">
                   Model
                   <input type="text" value={aiSettings.model}

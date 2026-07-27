@@ -4,6 +4,8 @@ export interface AiSettings {
   provider: AiProvider;
   apiKey: string;
   model: string;
+  /** Optional OpenAI-compatible API root, e.g. http://127.0.0.1:8080. */
+  baseUrl: string;
 }
 
 const STORAGE_KEY = 'notesmart-ai-settings';
@@ -20,12 +22,17 @@ export function getAiSettings(): AiSettings {
     if (stored) {
       const parsed = JSON.parse(stored) as Partial<AiSettings>;
       const provider = parsed.provider && defaults[parsed.provider] ? parsed.provider : 'openai';
-      return { provider, apiKey: parsed.apiKey ?? '', model: parsed.model || defaults[provider] };
+      return {
+        provider,
+        apiKey: parsed.apiKey ?? '',
+        model: parsed.model || defaults[provider],
+        baseUrl: parsed.baseUrl ?? '',
+      };
     }
   } catch {
     // A malformed local setting must never prevent the app from starting.
   }
-  return { provider: 'openai', apiKey: '', model: defaults.openai };
+  return { provider: 'openai', apiKey: '', model: defaults.openai, baseUrl: '' };
 }
 
 export function saveAiSettings(settings: AiSettings): void {

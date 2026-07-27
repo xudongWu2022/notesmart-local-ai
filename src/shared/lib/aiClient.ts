@@ -31,6 +31,7 @@ export async function generateAiText(request: AiRequest): Promise<string> {
           provider: 'openai',
           apiKey: settings.apiKey,
           model: settings.model,
+          baseUrl: settings.baseUrl,
           instruction: request.instruction,
           input: request.input,
           maxTokens: request.maxTokens ?? 1800,
@@ -39,7 +40,7 @@ export async function generateAiText(request: AiRequest): Promise<string> {
     } catch {
       throw new Error(`Could not reach the local AI service at ${CONFIG.LOCAL_BACKEND_URL}. Start it with: python backend/app.py`);
     }
-    if (!response.ok) return errorMessage(response, 'OpenAI');
+    if (!response.ok) return errorMessage(response, settings.baseUrl ? 'OpenAI-compatible provider' : 'OpenAI');
     const data = await response.json();
     const text = data.text as string | undefined;
     if (!text) throw new Error('OpenAI returned no text output.');
@@ -86,7 +87,7 @@ export async function generateAiText(request: AiRequest): Promise<string> {
   return text;
 }
 
-export async function testAiConnection(settingsOverride?: { provider: string; apiKey: string; model: string }): Promise<void> {
+export async function testAiConnection(settingsOverride?: { provider: string; apiKey: string; model: string; baseUrl: string }): Promise<void> {
   const previous = getAiSettings();
   if (settingsOverride) localStorage.setItem('notesmart-ai-settings', JSON.stringify(settingsOverride));
   try {

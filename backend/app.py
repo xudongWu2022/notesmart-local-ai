@@ -28,6 +28,16 @@ def json_error(message, status=400):
     return jsonify({'error': message}), status
 
 
+def responses_endpoint(base_url):
+    """Normalize an OpenAI-compatible API root to its Responses endpoint."""
+    root = (base_url or 'https://api.openai.com').strip().rstrip('/')
+    if root.endswith('/responses'):
+        return root
+    if root.endswith('/v1'):
+        return f'{root}/responses'
+    return f'{root}/v1/responses'
+
+
 @app.route('/ai/generate', methods=['POST', 'OPTIONS'])
 def generate_ai():
     """Local-only proxy for OpenAI Responses, avoiding browser CORS restrictions."""
@@ -46,9 +56,11 @@ def generate_ai():
         'input': payload.get('input', ''),
         'max_output_tokens': payload.get('maxTokens', 1800),
     }
+    endpoint = responses_endpoint(payload.get('baseUrl'))
+    provider_name = 'OpenAI-compatible provider' if payload.get('baseUrl') else 'OpenAI'
     try:
         upstream = Request(
-            'https://api.openai.com/v1/responses',
+            endpoint,
             data=json.dumps(upstream_payload).encode('utf-8'),
             headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {api_key}'},
             method='POST',
@@ -57,13 +69,13 @@ def generate_ai():
             data = json.loads(response.read().decode('utf-8'))
         text = data.get('output_text')
         if not text:
-            return json_error('OpenAI returned no text output', 502)
+            return json_error(f'{provider_name} returned no text output', 502)
         return jsonify({'text': text})
     except HTTPError as error:
         details = error.read().decode('utf-8', errors='replace')[:600]
         return jsonify({'error': details or error.reason}), error.code
     except URLError as error:
-        return json_error(f'Could not reach OpenAI: {error.reason}', 502)
+        return json_error(f'Could not reach {provider_name}: {error.reason}', 502)
     except Exception as error:
         traceback.print_exc()
         return json_error(f'Local AI proxy failed: {error}', 500)

@@ -6,6 +6,7 @@ export const CONFIG = {
   SILICONFLOW_API_KEY: import.meta.env.VITE_SILICONFLOW_API_KEY || '',
   GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY || '',
   TRANSCRIPT_API_URL: import.meta.env.VITE_TRANSCRIPT_API_URL || 'http://localhost:5001/transcript',
+  LOCAL_BACKEND_URL: import.meta.env.VITE_LOCAL_BACKEND_URL || 'http://localhost:5001',
   SYNC_ENABLED: Boolean(import.meta.env.VITE_API_URL),
 } as const;
 

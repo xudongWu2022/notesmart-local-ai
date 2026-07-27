@@ -1,6 +1,8 @@
 import json
 import sqlite3
 import traceback
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 from pathlib import Path
 
 from flask import Flask, jsonify, request
@@ -24,6 +26,47 @@ def connection():
 
 def json_error(message, status=400):
     return jsonify({'error': message}), status
+
+
+@app.route('/ai/generate', methods=['POST', 'OPTIONS'])
+def generate_ai():
+    """Local-only proxy for OpenAI Responses, avoiding browser CORS restrictions."""
+    if request.method == 'OPTIONS':
+        return '', 204
+    payload = request.get_json(silent=True) or {}
+    api_key = payload.get('apiKey', '').strip()
+    if not api_key:
+        return json_error('No OpenAI API key was supplied')
+    if payload.get('provider') != 'openai':
+        return json_error('This local proxy currently supports OpenAI only')
+
+    upstream_payload = {
+        'model': payload.get('model'),
+        'instructions': payload.get('instruction', ''),
+        'input': payload.get('input', ''),
+        'max_output_tokens': payload.get('maxTokens', 1800),
+    }
+    try:
+        upstream = Request(
+            'https://api.openai.com/v1/responses',
+            data=json.dumps(upstream_payload).encode('utf-8'),
+            headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {api_key}'},
+            method='POST',
+        )
+        with urlopen(upstream, timeout=90) as response:
+            data = json.loads(response.read().decode('utf-8'))
+        text = data.get('output_text')
+        if not text:
+            return json_error('OpenAI returned no text output', 502)
+        return jsonify({'text': text})
+    except HTTPError as error:
+        details = error.read().decode('utf-8', errors='replace')[:600]
+        return jsonify({'error': details or error.reason}), error.code
+    except URLError as error:
+        return json_error(f'Could not reach OpenAI: {error.reason}', 502)
+    except Exception as error:
+        traceback.print_exc()
+        return json_error(f'Local AI proxy failed: {error}', 500)
 
 
 @app.route('/health', methods=['GET'])

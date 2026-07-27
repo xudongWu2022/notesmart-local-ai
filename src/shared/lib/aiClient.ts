@@ -1,4 +1,5 @@
 import { getAiSettings } from './aiSettings';
+import { CONFIG } from './config';
 
 export interface AiRequest {
   instruction: string;
@@ -21,19 +22,26 @@ export async function generateAiText(request: AiRequest): Promise<string> {
   }
 
   if (settings.provider === 'openai') {
-    const response = await fetch('https://api.openai.com/v1/responses', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${settings.apiKey}` },
-      body: JSON.stringify({
-        model: settings.model,
-        instructions: request.instruction,
-        input: request.input,
-        max_output_tokens: request.maxTokens ?? 1800,
-      }),
-    });
+    let response: Response;
+    try {
+      response = await fetch(`${CONFIG.LOCAL_BACKEND_URL}/ai/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'openai',
+          apiKey: settings.apiKey,
+          model: settings.model,
+          instruction: request.instruction,
+          input: request.input,
+          maxTokens: request.maxTokens ?? 1800,
+        }),
+      });
+    } catch {
+      throw new Error(`Could not reach the local AI service at ${CONFIG.LOCAL_BACKEND_URL}. Start it with: python backend/app.py`);
+    }
     if (!response.ok) return errorMessage(response, 'OpenAI');
     const data = await response.json();
-    const text = data.output_text as string | undefined;
+    const text = data.text as string | undefined;
     if (!text) throw new Error('OpenAI returned no text output.');
     return text;
   }
@@ -42,13 +50,13 @@ export async function generateAiText(request: AiRequest): Promise<string> {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${settings.model}:generateContent?key=${settings.apiKey}`,
       {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: request.instruction }] },
-          contents: [{ role: 'user', parts: [{ text: request.input }] }],
-          generationConfig: { temperature: request.temperature ?? 0.5, maxOutputTokens: request.maxTokens ?? 1800 },
-        }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: request.instruction }] },
+        contents: [{ role: 'user', parts: [{ text: request.input }] }],
+        generationConfig: { temperature: request.temperature ?? 0.5, maxOutputTokens: request.maxTokens ?? 1800 },
+      }),
       },
     );
     if (!response.ok) return errorMessage(response, 'Gemini');

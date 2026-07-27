@@ -1,6 +1,7 @@
 import { db, saveNote as saveLocalNote } from '../../../db/db';
 import type { NoteData } from '../../../shared/types/note';
 import { generateAiText } from '../../../shared/lib/aiClient';
+import { indexNoteForMemory } from '../../learning/services/learningMemory';
 
 interface SystemPrompts {
   [key: string]: string;
@@ -163,7 +164,9 @@ export const generateNote = async (transcript: string, noteLanguage: string): Pr
 
 export const saveNote = async (noteData: NoteData): Promise<number> => {
   try {
-    return await saveLocalNote(noteData);
+    const id = await saveLocalNote(noteData);
+    await indexNoteForMemory(id);
+    return id;
   } catch (error) {
     console.error('Error saving note:', error);
     throw error;

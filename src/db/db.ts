@@ -10,6 +10,35 @@ interface SyncQueueItem {
   operation: string;
   data: unknown;
   timestamp: string;
+  attempts?: number;
+  lastError?: string;
+}
+
+export interface MemoryChunk {
+  id?: number;
+  noteId: number;
+  title: string;
+  text: string;
+  tokens: string;
+  updatedAt: string;
+}
+
+export interface StudyCardProgress {
+  id?: number;
+  noteId: number;
+  cardId: string;
+  mastery: number;
+  intervalDays: number;
+  nextReview: string;
+  lastReviewed?: string;
+}
+
+interface SyncConflict {
+  id?: number;
+  noteId: number;
+  local: Note;
+  server: Note;
+  createdAt: string;
 }
 
 export interface LearningEvent {
@@ -29,6 +58,9 @@ class NotesAppDatabase extends Dexie {
   syncQueue!: Dexie.Table<SyncQueueItem, number>;
   quizzes!: Dexie.Table<Quiz, number>;
   learningEvents!: Dexie.Table<LearningEvent, number>;
+  memoryChunks!: Dexie.Table<MemoryChunk, number>;
+  studyCardProgress!: Dexie.Table<StudyCardProgress, number>;
+  conflicts!: Dexie.Table<SyncConflict, number>;
 
   constructor() {
     super('notesApp');
@@ -51,10 +83,45 @@ class NotesAppDatabase extends Dexie {
       quizzes: '++id, noteId, questions, userAnswers, date, score',
       learningEvents: '++id, noteId, kind, createdAt',
     });
+    this.version(7).stores({
+      notes: '++id, title, content, date, subject, lastModified, syncStatus, folderId',
+      attachments: '++id, noteId, fileName, fileType, uploadDate',
+      folders: '++id, name, createdAt, lastModified, syncStatus',
+      flashcards: '++id, noteId, date',
+      syncQueue: '++id, operation, timestamp',
+      quizzes: '++id, noteId, date, score',
+      learningEvents: '++id, noteId, kind, createdAt',
+      memoryChunks: '++id, noteId, updatedAt',
+      studyCardProgress: '++id, [noteId+cardId], nextReview',
+      conflicts: '++id, noteId, createdAt',
+    });
   }
 }
 
 export const db = new NotesAppDatabase();
+
+async function queueNoteSync(note: Note): Promise<void> {
+  const queued = await db.syncQueue.filter((item) => item.operation === 'saveNote' && (item.data as Note).id === note.id).first();
+  const entry = { operation: 'saveNote', data: note, timestamp: new Date().toISOString(), attempts: 0 };
+  if (queued?.id != null) await db.syncQueue.update(queued.id, entry);
+  else await db.syncQueue.add(entry);
+}
+
+async function syncNote(note: Note): Promise<void> {
+  try {
+    await api.saveNoteToServer(note);
+    if (note.id != null) await db.notes.update(note.id, { syncStatus: 'synced' });
+  } catch (error: unknown) {
+    const response = (error as { response?: { status?: number; data?: Note } }).response;
+    if (response?.status === 409 && note.id != null && response.data) {
+      await db.conflicts.add({ noteId: note.id, local: note, server: response.data, createdAt: new Date().toISOString() });
+      await db.notes.put({ ...note, id: undefined, title: `${note.title} (local conflict copy)`, syncStatus: 'pending', lastModified: new Date().toISOString() });
+      await db.notes.put({ ...response.data, syncStatus: 'synced' });
+      return;
+    }
+    throw error;
+  }
+}
 
 export const saveNote = async (noteData: NoteData): Promise<number> => {
   try {
@@ -72,14 +139,9 @@ export const saveNote = async (noteData: NoteData): Promise<number> => {
     if (!CONFIG.SYNC_ENABLED) {
       await db.notes.update(id, { syncStatus: 'synced' });
     } else try {
-      await api.saveNoteToServer({ ...note, id });
-      await db.notes.update(id, { syncStatus: 'synced' });
+      await syncNote({ ...note, id });
     } catch {
-      await db.syncQueue.add({
-        operation: 'saveNote',
-        data: note,
-        timestamp: new Date().toISOString(),
-      });
+      await queueNoteSync({ ...note, id });
     }
 
     return id;
@@ -123,7 +185,7 @@ export const processSyncQueue = async (): Promise<void> => {
     try {
       switch (item.operation) {
         case 'saveNote':
-          await api.saveNoteToServer(item.data as Note);
+          await syncNote(item.data as Note);
           break;
         case 'saveFlashcards': {
           const data = item.data as { noteId: number; flashcards: unknown[] };
@@ -134,10 +196,9 @@ export const processSyncQueue = async (): Promise<void> => {
           console.warn('Unknown operation:', item.operation);
           break;
       }
-      if (item.id != null) {
-        await db.syncQueue.delete(item.id);
-      }
+      if (item.id != null) await db.syncQueue.delete(item.id);
     } catch (error) {
+      if (item.id != null) await db.syncQueue.update(item.id, { attempts: (item.attempts ?? 0) + 1, lastError: error instanceof Error ? error.message : 'Sync failed' });
       console.error('Sync failed for item:', item, error);
     }
   }
@@ -150,6 +211,9 @@ if (typeof document !== 'undefined') {
       processSyncQueue();
     }
   });
+}
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => { void processSyncQueue(); });
 }
 
 export const updateNote = async (id: number, updates: Partial<Note>): Promise<void> => {
@@ -165,16 +229,11 @@ export const updateNote = async (id: number, updates: Partial<Note>): Promise<vo
     try {
       const updatedNote = await db.notes.get(id);
       if (updatedNote) {
-        await api.saveNoteToServer(updatedNote);
-        await db.notes.update(id, { syncStatus: 'synced' });
+        await syncNote(updatedNote);
       }
     } catch {
       const noteData = await db.notes.get(id);
-      await db.syncQueue.add({
-        operation: 'saveNote',
-        data: noteData,
-        timestamp: new Date().toISOString(),
-      });
+      if (noteData) await queueNoteSync(noteData);
     }
   } catch (error) {
     console.error('Error updating note:', error);

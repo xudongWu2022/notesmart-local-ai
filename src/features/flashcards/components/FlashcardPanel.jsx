@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { FiChevronLeft, FiChevronRight, FiRotateCw, FiPlay, FiTrash2, FiPlus, FiCopy, FiEdit2 } from 'react-icons/fi';
 import { generateFlashcards, saveFlashcards, getFlashcardHistory } from '../services/flashcardGenerationService';
+import { recordFlashcardReview } from '../../learning/services/learningMemory';
 
 function FlashcardPanel({ noteContent, noteId }) {
   const [flashcards, setFlashcards] = useState([]);
@@ -141,6 +142,13 @@ function FlashcardPanel({ noteContent, noteId }) {
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
+  };
+
+  const markCard = async (remembered) => {
+    const card = flashcards[currentCardIndex];
+    if (!card || !noteId) return;
+    await recordFlashcardReview(Number(noteId), card.id, remembered);
+    if (currentCardIndex < flashcards.length - 1) handleNext();
   };
 
   return (
@@ -285,6 +293,10 @@ function FlashcardPanel({ noteContent, noteId }) {
               {/* Flip Hint */}
               <div className="text-center text-sm text-content-tertiary">
                 Click the card to flip it
+              </div>
+              <div className="flex justify-center gap-3">
+                <button onClick={() => markCard(false)} className="px-4 py-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50">Review again</button>
+                <button onClick={() => markCard(true)} className="px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700">I knew this</button>
               </div>
             </div>
           )}

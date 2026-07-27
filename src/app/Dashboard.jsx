@@ -9,6 +9,7 @@ import ProgressBar from '../shared/components/ui/ProgressBar';
 import YouTubeLinkModal from '../features/youtube/components/YouTubeLinkModal';
 import InputOptionsGrid from './components/InputOptionsGrid';
 import RecentNotesList from './components/RecentNotesList';
+import DailyReviewPlan from './components/DailyReviewPlan';
 import DocumentUploadModal from './components/DocumentUploadModal';
 import { useDashboard } from './hooks/useDashboard';
 import { motion } from 'framer-motion';
@@ -162,6 +163,9 @@ function Dashboard() {
                   notes={recentNotes}
                   onNoteClick={(id) => navigate(`/notes/${id}`)}
                 />
+              </motion.div>
+              <motion.div variants={item}>
+                <DailyReviewPlan onOpenNote={(id) => navigate(`/notes/${id}`)} />
               </motion.div>
             </motion.div>
           ) : (

@@ -38,6 +38,29 @@ def responses_endpoint(base_url):
     return f'{root}/v1/responses'
 
 
+def response_text(data):
+    """Read text from official Responses payloads and common relay variants."""
+    direct_text = data.get('output_text')
+    if isinstance(direct_text, str) and direct_text.strip():
+        return direct_text
+
+    for item in data.get('output', []):
+        for content in item.get('content', []):
+            text = content.get('text') or content.get('value')
+            if isinstance(text, str) and text.strip():
+                return text
+
+    # Some OpenAI-compatible relays expose a Chat Completions-shaped body even
+    # when the request path is /responses.
+    choices = data.get('choices', [])
+    if choices:
+        message = choices[0].get('message', {})
+        text = message.get('content') or choices[0].get('text')
+        if isinstance(text, str) and text.strip():
+            return text
+    return None
+
+
 @app.route('/ai/generate', methods=['POST', 'OPTIONS'])
 def generate_ai():
     """Local-only proxy for OpenAI Responses, avoiding browser CORS restrictions."""
@@ -67,9 +90,10 @@ def generate_ai():
         )
         with urlopen(upstream, timeout=90) as response:
             data = json.loads(response.read().decode('utf-8'))
-        text = data.get('output_text')
+        text = response_text(data)
         if not text:
-            return json_error(f'{provider_name} returned no text output', 502)
+            fields = ', '.join(sorted(data.keys())[:12]) if isinstance(data, dict) else type(data).__name__
+            return json_error(f'{provider_name} returned no text output (response fields: {fields})', 502)
         return jsonify({'text': text})
     except HTTPError as error:
         details = error.read().decode('utf-8', errors='replace')[:600]

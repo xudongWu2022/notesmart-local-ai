@@ -1,0 +1,173 @@
+{
+  "common": {
+    "appName": "NoteSmart",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "export": "Export",
+    "close": "Close",
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "rename": "Rename",
+    "search": "Search",
+    "noContent": "No content",
+    "create": "Create",
+    "upload": "Upload",
+    "submit": "Submit",
+    "done": "Done",
+    "next": "Next",
+    "previous": "Previous",
+    "or": "or",
+    "comingSoon": "Coming Soon"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "folders": "Folders",
+    "login": "Sign In",
+    "logout": "Logout",
+    "settings": "Settings",
+    "allNotes": "All Notes"
+  },
+  "home": {
+    "badge": "AI-Powered Note Taking",
+    "heroTitle1": "Transform Your Voice",
+    "heroTitle2": "Into Smart Notes",
+    "heroSubtitle": "AI-powered note-taking from voice recordings, documents, and YouTube videos — with quiz generation, flashcards, and mind maps.",
+    "statsStudents": "Students",
+    "statsNotes": "Notes Created",
+    "statsFeatures": "Features",
+    "getStarted": "Get Started Free",
+    "learnMore": "Learn More",
+    "featuresHeading": "Everything You Need to",
+    "featuresHighlight": "Learn Smarter",
+    "featuresSubtitle": "From voice recordings to interactive study tools, NoteSmart handles the entire learning workflow.",
+    "howItWorks": "How It",
+    "howItWorksHighlight": "Works",
+    "howItWorksSubtitle": "Three simple steps to transform any content into structured notes.",
+    "ctaTitle": "Ready to Transform Your Learning?",
+    "ctaSubtitle": "Join thousands of students and professionals who use NoteSmart to study smarter, not harder.",
+    "copyright": "NoteSmart. All rights reserved.",
+    "features": {
+      "voiceToNotes": "Voice to Notes",
+      "voiceToNotesDesc": "Record or upload audio, AI generates structured notes instantly.",
+      "documentImport": "Document Import",
+      "documentImportDesc": "Support for PDF, Word, PowerPoint, Excel and more.",
+      "youtubeNotes": "YouTube Notes",
+      "youtubeNotesDesc": "Paste a YouTube link and get AI-generated notes.",
+      "quizGeneration": "Quiz Generation",
+      "quizGenerationDesc": "Auto-generate quizzes from your notes to test knowledge.",
+      "flashcards": "Flashcards",
+      "flashcardsDesc": "Create flashcard decks for efficient study sessions.",
+      "mindMaps": "Mind Maps",
+      "mindMapsDesc": "Visualize note structure with interactive mind maps."
+    },
+    "steps": {
+      "uploadOrRecord": "Upload or Record",
+      "uploadOrRecordDesc": "Upload an audio file, record live, paste a YouTube link, or import a document.",
+      "aiProcessing": "AI Processing",
+      "aiProcessingDesc": "Our AI transcribes, analyzes and generates structured notes automatically.",
+      "studyAndReview": "Study & Review",
+      "studyAndReviewDesc": "Use quizzes, flashcards, and mind maps to reinforce your learning."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "recentNotes": "Recent Notes",
+    "emptyTitle": "Start Your Journey",
+    "emptySubtitle": "Create your first note and begin organizing your thoughts in a beautiful way",
+    "createFirst": "Create Your First Note",
+    "greeting": {
+      "morning": "Good Morning",
+      "afternoon": "Good Afternoon",
+      "evening": "Good Evening"
+    },
+    "subtitle": "Here's what's happening with your notes",
+    "quickActions": "Quick Actions",
+    "viewAll": "View All",
+    "stats": {
+      "totalNotes": "Total Notes",
+      "thisWeek": "This Week",
+      "memberSince": "Member Since"
+    },
+    "inputOptions": {
+      "recordAudio": "Record or Upload Audio",
+      "recordAudioSub": "Upload an audio file",
+      "liveLecture": "Record Live Lecture",
+      "liveLectureSub": "Real time transcript",
+      "youtube": "YouTube Video",
+      "youtubeSub": "Paste a YouTube link",
+      "document": "Document Upload",
+      "documentSub": "PDF, PPT, WORD, EXCEL, CSV, TXT"
+    }
+  },
+  "auth": {
+    "signIn": "Sign in to your account",
+    "testLogin": "Test Login (123456)",
+    "testCredentials": "Test Account Credentials:",
+    "password": "Password:",
+    "loginFailed": "Login failed. Please try again."
+  },
+  "settings": {
+    "title": "Settings",
+    "generalSettings": "General Settings",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "changePassword": "Change Password",
+    "billing": "Billing",
+    "subscriptionPlans": "Subscription Plans",
+    "selectPlan": "Select Plan",
+    "popular": "Popular"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "folders": "Folders",
+    "newFolder": "New Folder",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "openMenu": "Open menu",
+    "emptyFolders": "No folders yet",
+    "createFirstFolder": "Create your first folder"
+  },
+  "notes": {
+    "untitled": "Untitled Note",
+    "addToFolder": "Add to Folder",
+    "removeFromFolder": "Remove from Folder",
+    "folder": "Folder",
+    "about": "About",
+    "content": "Content",
+    "quiz": "Quiz",
+    "flashcards": "Flashcards",
+    "mindMap": "Mind Map",
+    "deleteConfirmTitle": "Delete Note",
+    "deleteConfirmMessage": "Are you sure you want to delete this note? This action cannot be undone.",
+    "combineNotes": "Combine Notes",
+    "selectNotes": "Select notes to combine"
+  },
+  "transcription": {
+    "selectLanguage": "Select Language",
+    "uploadAudio": "Upload Audio",
+    "dropFile": "Drop your audio file here",
+    "browseFiles": "Browse files",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "processing": "Processing..."
+  },
+  "youtube": {
+    "pasteLink": "Paste YouTube Link",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "generate": "Generate Notes"
+  },
+  "document": {
+    "uploadDocument": "Upload Document",
+    "supportedFormats": "Supported formats: PDF, Word, PowerPoint, Excel, CSV, TXT",
+    "dropFile": "Drop your document here",
+    "maxSize": "Max file size: 10MB"
+  }
+}

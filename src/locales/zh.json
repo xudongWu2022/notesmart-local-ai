@@ -1,0 +1,173 @@
+{
+  "common": {
+    "appName": "NoteSmart",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "back": "返回",
+    "export": "导出",
+    "close": "关闭",
+    "loading": "加载中...",
+    "confirm": "确认",
+    "rename": "重命名",
+    "search": "搜索",
+    "noContent": "暂无内容",
+    "create": "创建",
+    "upload": "上传",
+    "submit": "提交",
+    "done": "完成",
+    "next": "下一步",
+    "previous": "上一步",
+    "or": "或",
+    "comingSoon": "即将推出"
+  },
+  "nav": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "folders": "文件夹",
+    "login": "登录",
+    "logout": "退出登录",
+    "settings": "设置",
+    "allNotes": "所有笔记"
+  },
+  "home": {
+    "badge": "AI 驱动的智能笔记",
+    "heroTitle1": "将你的声音",
+    "heroTitle2": "转化为智能笔记",
+    "heroSubtitle": "AI 驱动的笔记工具，支持语音录制、文档导入和 YouTube 视频 —— 配备测验生成、闪卡和思维导图。",
+    "statsStudents": "学生用户",
+    "statsNotes": "笔记已创建",
+    "statsFeatures": "功能特性",
+    "getStarted": "免费开始",
+    "learnMore": "了解更多",
+    "featuresHeading": "你需要的一切，",
+    "featuresHighlight": "更聪明地学习",
+    "featuresSubtitle": "从语音录制到互动学习工具，NoteSmart 为你处理整个学习流程。",
+    "howItWorks": "如何",
+    "howItWorksHighlight": "使用",
+    "howItWorksSubtitle": "三个简单步骤，将任何内容转化为结构化笔记。",
+    "ctaTitle": "准备好改变你的学习方式了吗？",
+    "ctaSubtitle": "加入数千名使用 NoteSmart 更高效学习的学生和专业人士。",
+    "copyright": "NoteSmart. 保留所有权利。",
+    "features": {
+      "voiceToNotes": "语音转笔记",
+      "voiceToNotesDesc": "录制或上传音频，AI 即时生成结构化笔记。",
+      "documentImport": "文档导入",
+      "documentImportDesc": "支持 PDF、Word、PowerPoint、Excel 等格式。",
+      "youtubeNotes": "YouTube 笔记",
+      "youtubeNotesDesc": "粘贴 YouTube 链接，获取 AI 生成的笔记。",
+      "quizGeneration": "测验生成",
+      "quizGenerationDesc": "从笔记自动生成测验，检验知识掌握情况。",
+      "flashcards": "闪卡",
+      "flashcardsDesc": "创建闪卡组，高效复习学习内容。",
+      "mindMaps": "思维导图",
+      "mindMapsDesc": "用互动思维导图可视化笔记结构。"
+    },
+    "steps": {
+      "uploadOrRecord": "上传或录制",
+      "uploadOrRecordDesc": "上传音频文件、实时录制、粘贴 YouTube 链接或导入文档。",
+      "aiProcessing": "AI 处理",
+      "aiProcessingDesc": "我们的 AI 自动转录、分析并生成结构化笔记。",
+      "studyAndReview": "学习与复习",
+      "studyAndReviewDesc": "使用测验、闪卡和思维导图巩固学习成果。"
+    }
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "recentNotes": "最近笔记",
+    "emptyTitle": "开始你的旅程",
+    "emptySubtitle": "创建你的第一条笔记，开始以美观的方式整理你的想法",
+    "createFirst": "创建你的第一条笔记",
+    "greeting": {
+      "morning": "早上好",
+      "afternoon": "下午好",
+      "evening": "晚上好"
+    },
+    "subtitle": "以下是你的笔记最新动态",
+    "quickActions": "快捷操作",
+    "viewAll": "查看全部",
+    "stats": {
+      "totalNotes": "笔记总数",
+      "thisWeek": "本周新增",
+      "memberSince": "加入时间"
+    },
+    "inputOptions": {
+      "recordAudio": "录制或上传音频",
+      "recordAudioSub": "上传音频文件",
+      "liveLecture": "实时录制讲座",
+      "liveLectureSub": "实时转录",
+      "youtube": "YouTube 视频",
+      "youtubeSub": "粘贴 YouTube 链接",
+      "document": "文档上传",
+      "documentSub": "PDF、PPT、WORD、EXCEL、CSV、TXT"
+    }
+  },
+  "auth": {
+    "signIn": "登录你的账户",
+    "testLogin": "测试登录 (123456)",
+    "testCredentials": "测试账户凭证：",
+    "password": "密码：",
+    "loginFailed": "登录失败，请重试。"
+  },
+  "settings": {
+    "title": "设置",
+    "generalSettings": "通用设置",
+    "theme": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "language": "语言",
+    "changePassword": "修改密码",
+    "billing": "账单",
+    "subscriptionPlans": "订阅计划",
+    "selectPlan": "选择计划",
+    "popular": "热门"
+  },
+  "sidebar": {
+    "menu": "菜单",
+    "folders": "文件夹",
+    "newFolder": "新建文件夹",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "collapse": "折叠侧边栏",
+    "expand": "展开侧边栏",
+    "openMenu": "打开菜单",
+    "emptyFolders": "还没有文件夹",
+    "createFirstFolder": "创建你的第一个文件夹"
+  },
+  "notes": {
+    "untitled": "无标题笔记",
+    "addToFolder": "添加到文件夹",
+    "removeFromFolder": "从文件夹移除",
+    "folder": "文件夹",
+    "about": "关于",
+    "content": "内容",
+    "quiz": "测验",
+    "flashcards": "闪卡",
+    "mindMap": "思维导图",
+    "deleteConfirmTitle": "删除笔记",
+    "deleteConfirmMessage": "确定要删除这条笔记吗？此操作不可撤销。",
+    "combineNotes": "合并笔记",
+    "selectNotes": "选择要合并的笔记"
+  },
+  "transcription": {
+    "selectLanguage": "选择语言",
+    "uploadAudio": "上传音频",
+    "dropFile": "将音频文件拖放到这里",
+    "browseFiles": "浏览文件",
+    "startRecording": "开始录制",
+    "stopRecording": "停止录制",
+    "processing": "处理中..."
+  },
+  "youtube": {
+    "pasteLink": "粘贴 YouTube 链接",
+    "placeholder": "https://www.youtube.com/watch?v=...",
+    "generate": "生成笔记"
+  },
+  "document": {
+    "uploadDocument": "上传文档",
+    "supportedFormats": "支持格式：PDF、Word、PowerPoint、Excel、CSV、TXT",
+    "dropFile": "将文档拖放到这里",
+    "maxSize": "最大文件大小：10MB"
+  }
+}

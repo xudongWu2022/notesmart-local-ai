@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+/* Custom animations */
+.hover-scale {
+  transition: transform 0.2s;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Custom shadows */
+.shadow-custom {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Modern gradient animations */
+.bg-grid-pattern {
+  background-size: 30px 30px;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+}
+
+/* Glass morphism effect */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Smooth animations */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 
+
+/* Custom styles for Mermaid container */
+.mermaid-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9; /* Set background color */
+  border-radius: 8px; /* Add rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better appearance */
+  padding: 20px; /* Add padding */
+  overflow: auto; /* Enable scrolling */
+}
+
+/* Customize the styles of mindmap nodes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  fill: #ffffff; /* Set node background color */
+  stroke: #4a90e2; /* Set node border color */
+  stroke-width: 2px; /* Set node border width */
+}
+
+/* Customize the styles of mindmap connections */
+.mermaid .edgePath path {
+  stroke: #4a90e2; /* Set connection line color */
+  stroke-width: 2px; /* Set connection line width */
+}
+
+/* Adjust font styles in mindmap nodes */
+.mermaid .node text {
+  font-family: 'Arial, sans-serif'; /* Set font family */
+  font-size: 14px; /* Set font size */
+  fill: #333333; /* Set text color */
+}
+
+/* Add hover effects for nodes (optional) */
+.mermaid .node:hover rect,
+.mermaid .node:hover circle,
+.mermaid .node:hover ellipse {
+  fill: #e6f7ff; /* Change node background color on hover */
+  stroke: #007acc; /* Highlight node border color on hover */
+}
+
+/* React Flow specific styles */
+.react-flow {
+  background-color: #f8fafc;
+}
+
+.react-flow__node {
+  transition: all 0.2s ease;
+  width: auto !important;
+  max-width: 200px;
+  white-space: normal !important;
+}
+
+.react-flow__node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.react-flow__controls {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: white;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.react-flow__controls button {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  transition: all 0.2s ease;
+}
+
+.react-flow__controls button:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.react-flow__edge {
+  transition: stroke-width 0.2s ease;
+}
+
+.react-flow__edge:hover {
+  stroke-width: 3;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+  stroke: #4a90e2;
+}
+
+.react-flow__node-default {
+  background: #fff;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.react-flow__node-default:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+}
+
+/* Add these styles at the end of your existing React Flow styles */
+
+/* Prevent React Flow cleanup issues */
+.react-flow__renderer {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.react-flow__renderer.unmounting {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Ensure proper cleanup of nodes */
+.react-flow__node.removing {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+
+/* Ensure proper z-index stacking */
+.react-flow__controls {
+  z-index: 5;
+}
+
+.react-flow__panel {
+  z-index: 6;
+}
+
+/* Prevent interaction during transitions */
+.react-flow.transitioning {
+  pointer-events: none;
+}

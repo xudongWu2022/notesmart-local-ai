@@ -1,0 +1,79 @@
+/* Design Tokens — CSS Custom Properties */
+
+:root {
+  /* Surface colors */
+  --color-surface-bg: #ffffff;
+  --color-surface-card: #ffffff;
+  --color-surface-elevated: #f9fafb;
+
+  /* Text colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+
+  /* Border colors */
+  --color-border-default: #e5e7eb;
+  --color-border-subtle: #f3f4f6;
+
+  /* Sidebar */
+  --color-sidebar-bg: #f8fafc;
+  --color-sidebar-hover: #f1f5f9;
+  --color-sidebar-active: #e2e8f0;
+
+  /* Interactive */
+  --color-surface-hover: #f3f4f6;
+  --color-surface-overlay: rgba(0, 0, 0, 0.4);
+  --color-surface-input: #ffffff;
+
+  /* Transition */
+  --transition-fast: 100ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+.dark {
+  /* Surface colors */
+  --color-surface-bg: #030712;
+  --color-surface-card: #111827;
+  --color-surface-elevated: #1f2937;
+
+  /* Text colors */
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-tertiary: #9ca3af;
+
+  /* Border colors */
+  --color-border-default: #374151;
+  --color-border-subtle: #1f2937;
+
+  /* Sidebar */
+  --color-sidebar-bg: #0f172a;
+  --color-sidebar-hover: #1e293b;
+  --color-sidebar-active: #334155;
+
+  /* Interactive */
+  --color-surface-hover: #374151;
+  --color-surface-overlay: rgba(0, 0, 0, 0.5);
+  --color-surface-input: #1f2937;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus ring utility */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-surface-bg), 0 0 0 4px #3b82f6;
+  border-radius: inherit;
+}
